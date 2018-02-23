@@ -9,7 +9,7 @@ DEPENDS = "\
         qtbase \
         qtdeclarative \
         qtquickcontrols2 \
-        pulseaudio \
+        qtwebsockets \
         agl-service-homescreen-2017 \
         agl-service-windowmanager-2017 \
         qlibwindowmanager \
