@@ -54,12 +54,13 @@ PACKAGES_DYNAMIC = "^libasound-module-.*"
 ALLOW_EMPTY_${PN} = "1"
 
 do_install_append() {
-	rm ${D}${libdir}/alsa-lib/*.la
+    rm ${D}${libdir}/alsa-lib/*.la
 
-	# We use the example as is, so just drop the .example suffix.
-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'yes', 'no', d)}" = "yes" ]; then
-		mv ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf.example ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf
-	fi
+    # We use the example as is, so just drop the .example suffix.
+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'yes', 'no', d)}" = "yes" ]; then
+       mv ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf.example ${D}${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf
+    fi
+    mv ${D}${datadir}/alsa/alsa.conf.d ${D}${datadir}/alsa/alsa.conf.d.notused
 }
 
 python populate_packages_prepend() {
@@ -96,8 +97,8 @@ INSANE_SKIP_${MLPREFIX}libasound-module-rate-speexrate = "dev-so"
 # 99-pulseaudio-default.conf configures the "default" device to use the
 # PulseAudio plugin.
 FILES_${PN}-pulseaudio-conf += "\
-        ${datadir}/alsa/alsa.conf.d/50-pulseaudio.conf \
-        ${datadir}/alsa/alsa.conf.d/99-pulseaudio-default.conf \
+        ${datadir}/alsa/alsa.conf.d.notused/50-pulseaudio.conf \
+        ${datadir}/alsa/alsa.conf.d.notused/99-pulseaudio-default.conf \
 "
 
 RDEPENDS_${PN}-pulseaudio-conf += "\
