@@ -6,8 +6,8 @@ SECTION     = "apps"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-SRC_URI = "git://gerrit.automotivelinux.org/gerrit/apps/agl-service-audio-4a;protocol=https;branch=${AGL_BRANCH}"
-SRCREV = "${AGL_APP_REVISION}"
+SRC_URI = "git://gerrit.automotivelinux.org/gerrit/apps/agl-service-audio-4a;protocol=https;branch=${AGL_BRANCH};nobranch=1"
+SRCREV = "sandbox/jobol/wip-mu"
 
 PV = "0.1+git${SRCPV}"
 S  = "${WORKDIR}/git"
@@ -49,7 +49,7 @@ EOF
 ##############################################
 # workaround for SPEC-1762/SPEC-1763
 RDEPENDS_${PN} += "bash"
-SRC_URI += "file://4a_wait_bt.sh"
+SRC_URI += "file://4a_wait_bt.sh;nobranch=1"
 do_install_append() {
 	install -d ${D}${bindir}
 	install -m 0755 ${WORKDIR}/4a_wait_bt.sh ${D}${bindir}/
