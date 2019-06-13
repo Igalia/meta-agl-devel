@@ -279,7 +279,7 @@ install_webruntime() {
           # use bindir if building non-cbe
           cp libchromium_lttng_provider.so ${D}${libdir}/
         fi
-        xargs --arg-file=${SRC_DIR}/webos/install/weboswebruntime/binary.list cp --parents --target-directory=${D}${CBE_DATA_PATH}
+        xargs --arg-file=${SRC_DIR}/webos/install/weboswebruntime/agl-binary.list cp --parents --target-directory=${D}${CBE_DATA_PATH}
         cat ${SRC_DIR}/webos/install/weboswebruntime/data_locales.list | xargs -I{} install -m 755 -p {} ${D}${CBE_DATA_LOCALES_PATH}
     fi
 
