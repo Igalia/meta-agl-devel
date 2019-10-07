@@ -19,12 +19,12 @@ DEPENDS = "virtual/gettext wayland wayland-native pixman freetype glib-2.0 fontc
 PROVIDES = "${BROWSER_APPLICATION}"
 
 SRC_URI = "\
-    git://github.com/webosose/${PN};branch=@39.agl.guppy;protocol=https;rev=${SRCREV_chromium68} \
-    git://github.com/webosose/v8;destsuffix=git/src/v8;rev=${SRCREV_v8} \
+    git://github.com/webosose/chromium72;branch=master;protocol=https;rev=${SRCREV_chromium68} \
+    git://github.com/webosose/chromium-v8;destsuffix=git/src/v8;branch=@chromium72;rev=${SRCREV_v8} \
     file://v8-qemu-wrapper.patch \
 "
-SRCREV_chromium68 = "3169198da53cbb842e504e91473e021a6b07bcc0"
-SRCREV_v8 = "1e3af71f1ff3735e8a5b639c48dfca63a7b8a647"
+SRCREV_chromium68 = "ed2a6d143dfd2fc5af50e0c2720c80e9717f465c"
+SRCREV_v8 = "3c24ac757b6083171b208457e5ff7b2a15e5863e"
 
 # we don't include SRCPV in PV, so we have to manually include SRCREVs in do_fetch vardeps
 do_fetch[vardeps] += "SRCREV_v8"
