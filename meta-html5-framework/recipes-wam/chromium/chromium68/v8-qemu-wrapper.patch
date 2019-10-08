@@ -22,15 +22,15 @@ Index: git/src/v8/BUILD.gn
 ===================================================================
 --- git.orig/src/v8/BUILD.gn
 +++ git/src/v8/BUILD.gn
-@@ -900,6 +900,7 @@ action("run_torque") {
+@@ -1009,6 +1009,7 @@ action("run_torque") {
    }
  
    args = [
 +    "./v8-qemu-wrapper.sh",
-     "./" + rebase_path(get_label_info(":torque($v8_torque_toolchain)",
+     "./" + rebase_path(get_label_info(":torque($v8_generator_toolchain)",
                                        "root_out_dir") + "/torque",
                         root_build_dir),
-@@ -977,6 +978,7 @@ template("run_mksnapshot") {
+@@ -1097,6 +1098,7 @@ template("run_mksnapshot") {
      data = []
  
      args = [
