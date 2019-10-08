@@ -155,6 +155,10 @@ GN_ARGS += "\
         v8_snapshot_toolchain=\"//build/toolchain/yocto:yocto_target\" \
 "
 
+# Disable closure_compile
+# Else we need HOSTTOOLS += "java"
+GN_ARGS += " closure_compile=false"
+
 # ARM builds need special additional flags (see ${S}/build/config/arm.gni).
 # If we do not pass |arm_arch| and friends to GN, it will deduce a value that
 # will then conflict with TUNE_CCARGS and CC.
