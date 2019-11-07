@@ -1,0 +1,43 @@
+From 1b110ce24b5074fcf0e2815378118e0ae4feb0df Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jacobo=20Aragunde=20P=C3=A9rez?= <jaragunde@igalia.com>
+Date: Thu, 3 Oct 2019 18:05:38 +0200
+Subject: [PATCH 1/2] [agl] Hard-code windowmanager roles for certain app ids.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Certain apps are required to have specific role names, so the window
+manager assigns them to the proper region. That would be the case of
+the homescreen.
+
+This patch hard-codes the "homescreen" and "launcher" roles to certain
+app ids. It's meant to be a temporary solution to be used with the
+legacy window manager, while the new one is not in place.
+
+Bug-AGL: SPEC-2401
+
+Signed-off-by: Jacobo Aragunde Pérez <jaragunde@igalia.com>
+---
+ src/agl/WebRuntimeAGL.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/agl/WebRuntimeAGL.cpp b/src/agl/WebRuntimeAGL.cpp
+index af386ba..b737dd2 100644
+--- a/src/agl/WebRuntimeAGL.cpp
++++ b/src/agl/WebRuntimeAGL.cpp
+@@ -247,6 +247,12 @@ bool WebAppLauncherRuntime::init() {
+       return false;
+     }
+ 
++    // Special cases for windowmanager roles
++    if (m_id.rfind("webapps-html5-homescreen", 0) == 0)
++      m_role = "homescreen";
++    else if (m_id.rfind("webapps-homescreen", 0) == 0)
++      m_role = "homescreen";
++
+     LOG_DEBUG("id=[%s], name=[%s], role=[%s], url=[%s], port=%d, token=[%s]",
+             m_id.c_str(), m_name.c_str(), m_role.c_str(), m_url.c_str(),
+             m_port, m_token.c_str());
+-- 
+2.11.0
+

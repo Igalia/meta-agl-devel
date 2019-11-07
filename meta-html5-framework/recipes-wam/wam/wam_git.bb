@@ -20,6 +20,8 @@ RPROVIDES_${PN} += "virtual/webruntime"
 
 SRC_URI = "\
     git://github.com/webosose/${PN}.git;branch=@6.agl.guppy;protocol=https \
+    file://0001-agl-Hard-code-windowmanager-roles-for-certain-app-id.patch \
+    file://0002-WIP-disable-tinyproxy-integration.patch \
     file://WebAppMgr@.service \
     file://WebAppMgr.env \
 "
