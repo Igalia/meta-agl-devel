@@ -1,0 +1,51 @@
+From f46d03f730e9f6211c3650c8d540b1761349d084 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jacobo=20Aragunde=20P=C3=A9rez?= <jaragunde@igalia.com>
+Date: Tue, 5 Nov 2019 13:39:54 +0100
+Subject: [PATCH 2/2] WIP: disable tinyproxy integration
+
+Bug-AGL: SPEC-2900
+---
+ src/agl/WebAppManagerServiceAGL.cpp | 3 +--
+ src/agl/WebRuntimeAGL.cpp           | 5 -----
+ 2 files changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/src/agl/WebAppManagerServiceAGL.cpp b/src/agl/WebAppManagerServiceAGL.cpp
+index 90b8aab..e264af9 100644
+--- a/src/agl/WebAppManagerServiceAGL.cpp
++++ b/src/agl/WebAppManagerServiceAGL.cpp
+@@ -178,8 +178,7 @@ public:
+ 
+       if (std::string(res[0]) == kStartApp) {
+         WebAppManagerServiceAGL::instance()->setStartupApplication(
+-          std::string(res[1]), std::string(res[2]), atoi(res[3]),
+-          std::string(res[4]));
++          std::string(res[1]), std::string(res[2]), atoi(res[3]));
+ 
+         WebAppManagerServiceAGL::instance()->triggerStartupApp();
+       } else {
+diff --git a/src/agl/WebRuntimeAGL.cpp b/src/agl/WebRuntimeAGL.cpp
+index b737dd2..6838474 100644
+--- a/src/agl/WebRuntimeAGL.cpp
++++ b/src/agl/WebRuntimeAGL.cpp
+@@ -138,10 +138,6 @@ int SharedBrowserProcessWebAppLauncher::launch(const std::string& id, const std:
+     return -1;
+   }
+ 
+-  tiny_proxy_ = std::make_unique<TinyProxy>();
+-  int port = tiny_proxy_->port();
+-  std::string proxy_port = std::to_string(port);
+-
+   m_rid = (int)getpid();
+   std::string m_rid_s = std::to_string(m_rid);
+   std::vector<const char*> data;
+@@ -149,7 +145,6 @@ int SharedBrowserProcessWebAppLauncher::launch(const std::string& id, const std:
+   data.push_back(id.c_str());
+   data.push_back(uri.c_str());
+   data.push_back(m_rid_s.c_str());
+-  data.push_back(proxy_port.c_str());
+ 
+   WebAppManagerServiceAGL::instance()->launchOnHost(data.size(), data.data());
+   return m_rid;
+-- 
+2.11.0
+
