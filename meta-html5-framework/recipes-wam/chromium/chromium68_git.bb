@@ -42,8 +42,11 @@ WEBRUNTIME_BUILD_TARGET = "webos:weboswebruntime"
 BROWSER_APP_BUILD_TARGET = "chrome"
 BROWSER_APPLICATION = "chromium68-browser"
 BROWSER_APPLICATION_DIR = "/opt/chromium68"
+APP_SHELL_BUILD_TARGET = "app_shell"
+APP_SHELL_RUNTIME = "app-shell"
+APP_SHELL_RUNTIME_DIR = "${bindir}/${APP_SHELL_RUNTIME}"
 
-TARGET = "${WEBRUNTIME_BUILD_TARGET} ${BROWSER_APP_BUILD_TARGET}"
+TARGET = "${WEBRUNTIME_BUILD_TARGET} ${BROWSER_APP_BUILD_TARGET} ${APP_SHELL_BUILD_TARGET}"
 
 # Skip do_install_append of webos_system_bus. It is not compatible with this component.
 WEBOS_SYSTEM_BUS_FILES_LOCATION = "${S}/files/sysbus"
@@ -86,6 +89,7 @@ GN_ARGS = "\
     treat_warnings_as_errors=false\
     is_agl=true\
     use_cbe=true\
+    is_app_shell_cbe=true\
     is_chrome_cbe=true\
     use_cups=false\
     use_custom_libcxx=false\
@@ -330,6 +334,25 @@ install_chromium_browser() {
     configure_browser_settings
 }
 
+install_app_shell() {
+    A_DIR=${D}${APP_SHELL_RUNTIME_DIR}
+    install -d ${A_DIR}
+
+    # Install app-shell files
+    if [ -e "${SRC_DIR}/webos/install" ]; then
+        cd ${OUT_DIR}/${BUILD_TYPE}
+        xargs --arg-file=${SRC_DIR}/webos/install/app_shell/binary.list cp -R --no-dereference --preserve=mode,links -v --target-directory=${A_DIR}
+        xargs --arg-file=${SRC_DIR}/webos/install/app_shell/cbe_data.list cp --parents --target-directory=${D}${CBE_DATA_PATH}
+        cd ${SRC_DIR}
+        xargs --arg-file=${SRC_DIR}/webos/install/app_shell/runtime.list cp -R --no-dereference --preserve=mode,links -v --target-directory=${A_DIR}
+    fi
+
+    # To execute chromium in JAILER, Security Part needs permissions change
+    # run_appshell: Script file for launching chromium
+    chmod -v 755 ${A_DIR}/app_shell
+    chmod -v 755 ${A_DIR}/run_app_shell
+}
+
 install_webruntime() {
     install -d ${D}${libdir}
     install -d ${D}${includedir}/${BPN}
@@ -359,6 +382,7 @@ install_webruntime() {
 
 do_install() {
     install_webruntime
+    install_app_shell
     install_chromium_browser
 }
 
@@ -374,6 +398,7 @@ SYSROOT_DIRS_append = " ${bindir_cross}"
 PACKAGES_prepend = " \
     ${PN}-cross-mksnapshot \
     ${BROWSER_APPLICATION} \
+    ${APP_SHELL_RUNTIME} \
 "
 
 FILES_${BROWSER_APPLICATION} += " \
@@ -390,6 +415,10 @@ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_gpu-libs}"
 # TODO: check if we need INSANE_SKIP on ldflags
 INSANE_SKIP_${BROWSER_APPLICATION} += "libdir ldflags textrel"
 
+FILES_${APP_SHELL_RUNTIME} += " \
+    ${APP_SHELL_RUNTIME_DIR} \
+"
+
 FILES_${PN} = " \
     ${libdir}/*.so \
     ${CBE_DATA_PATH}/* \
@@ -401,4 +430,8 @@ FILES_${PN}-dev = " \
     ${includedir} \
 "
 
+RDEPENDS_${PN} += "${APP_SHELL_RUNTIME}"
+INSANE_SKIP_${APP_SHELL_RUNTIME} += "libdir ldflags textrel"
+
 FILES_${PN}-cross-mksnapshot = "${bindir_cross}/${HOST_SYS}-mksnapshot.gz"
+
