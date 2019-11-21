@@ -6,7 +6,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 SRC_URI = "gitsm://auto-gitlab.lgsvl.net/jose.dapena/${PN}.git;branch=flounder;protocol=https"
-SRCREV = "97989b650abf8d93d7ff62dfbd3549cd4e008a39"
+SRCREV = "17e91e156fbd7b27fbf7a138171fc6e91650d83c"
 
 PV = "1.0+git${SRCPV}"
 S = "${WORKDIR}/git"
