@@ -23,7 +23,7 @@ SRC_URI = "\
     git://github.com/webosose/v8;destsuffix=git/src/v8;rev=${SRCREV_v8} \
     file://v8-qemu-wrapper.patch \
 "
-SRCREV_chromium68 = "5203e8ab1fc30c6511ee91157198298de96aa169"
+SRCREV_chromium68 = "6c0bb2e602383902ef550c9c515e045149c0e938"
 SRCREV_v8 = "1e3af71f1ff3735e8a5b639c48dfca63a7b8a647"
 
 # we don't include SRCPV in PV, so we have to manually include SRCREVs in do_fetch vardeps
@@ -344,7 +344,7 @@ install_app_shell() {
         xargs --arg-file=${SRC_DIR}/webos/install/app_shell/binary.list cp -R --no-dereference --preserve=mode,links -v --target-directory=${A_DIR}
         xargs --arg-file=${SRC_DIR}/webos/install/app_shell/cbe_data.list cp --parents --target-directory=${D}${CBE_DATA_PATH}
         cd ${SRC_DIR}
-        xargs --arg-file=${SRC_DIR}/webos/install/app_shell/runtime.list cp -R --no-dereference --preserve=mode,links -v --target-directory=${A_DIR}
+        xargs --arg-file=${SRC_DIR}/webos/install/app_shell/runtime_agl.list cp -R --no-dereference --preserve=mode,links -v --target-directory=${A_DIR}
     fi
 
     # To execute chromium in JAILER, Security Part needs permissions change
