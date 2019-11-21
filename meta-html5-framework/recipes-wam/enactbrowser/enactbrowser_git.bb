@@ -5,8 +5,8 @@ AUTHOR = "Mikyung Kim <mikyung27.kim@lge.com>"
 LICENSE = "LicenseRef-EnactBrowser-Evaluation"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6e00eb832d81f89a0f47fac10db717c7"
 
-DEPENDS += "af-binder af-main-native chromium68"
-RDEPENDS_{PN} += "ilib-webapp enact-framework"
+DEPENDS += "af-binder af-main-native chromium68 ilib-webapp"
+RDEPENDS_{PN} += "enact-framework"
 
 inherit agl_enactjs_app
 
@@ -30,7 +30,7 @@ AGL_ENACTJS_PACK_OVERRIDE = "\
     rm -fr ./dist/resources && \
     rm -fr ./dist/node_modules/@enact/moonstone/resources && \
     cp -f webos-locale.js dist/webos-locale.js && \
-    ln -sfn /usr/share/javascript/ilib/localedata/ ./dist/ilibdata && \
+    cp -fr ${RECIPE_SYSROOT}/usr/share/javascript/ilib/localedata/ ./dist/ilibdata && \
     cp -f label.js dist/ && \
     cp -f background.js dist/ && \
     cp -f defaults.js dist/ && \
