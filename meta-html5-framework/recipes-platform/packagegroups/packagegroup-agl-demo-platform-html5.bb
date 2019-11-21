@@ -22,6 +22,5 @@ RDEPENDS_${PN} += " \
 # add packages for WAM
 RDEPENDS_${PN} += " \
     chromium-browser-service \
-    enactbrowser-service \
     wam \
     "
