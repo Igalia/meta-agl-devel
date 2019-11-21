@@ -6,6 +6,7 @@ LICENSE = "LicenseRef-EnactBrowser-Evaluation"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6e00eb832d81f89a0f47fac10db717c7"
 
 DEPENDS += "af-binder af-main-native chromium68"
+RDEPENDS_{PN} += "ilib-webapp enact-framework"
 
 inherit agl_enactjs_app
 

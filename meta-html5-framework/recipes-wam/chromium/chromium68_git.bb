@@ -23,7 +23,7 @@ SRC_URI = "\
     git://github.com/webosose/v8;destsuffix=git/src/v8;rev=${SRCREV_v8} \
     file://v8-qemu-wrapper.patch \
 "
-SRCREV_chromium68 = "ae369a47e98023d5c1ee0c4bf4d48e6ed4ebb57b"
+SRCREV_chromium68 = "5203e8ab1fc30c6511ee91157198298de96aa169"
 SRCREV_v8 = "1e3af71f1ff3735e8a5b639c48dfca63a7b8a647"
 
 # we don't include SRCPV in PV, so we have to manually include SRCREVs in do_fetch vardeps
@@ -350,7 +350,7 @@ install_app_shell() {
     # To execute chromium in JAILER, Security Part needs permissions change
     # run_appshell: Script file for launching chromium
     chmod -v 755 ${A_DIR}/app_shell
-    chmod -v 755 ${A_DIR}/run_app_shell
+    chmod -v 755 ${A_DIR}/run_app_shell_agl
 }
 
 install_webruntime() {
