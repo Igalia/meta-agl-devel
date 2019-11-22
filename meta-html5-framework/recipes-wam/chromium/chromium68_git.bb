@@ -23,7 +23,7 @@ SRC_URI = "\
     git://github.com/webosose/v8;destsuffix=git/src/v8;rev=${SRCREV_v8} \
     file://v8-qemu-wrapper.patch \
 "
-SRCREV_chromium68 = "6c0bb2e602383902ef550c9c515e045149c0e938"
+SRCREV_chromium68 = "80098ccbc16270043ce9792d840153bdaea1e603"
 SRCREV_v8 = "1e3af71f1ff3735e8a5b639c48dfca63a7b8a647"
 
 # we don't include SRCPV in PV, so we have to manually include SRCREVs in do_fetch vardeps
