@@ -1,0 +1,27 @@
+From bed222b9e15d17b5e3cbc08cd344a90016a5b422 Mon Sep 17 00:00:00 2001
+From: Jose Dapena Paz <jdapena@igalia.com>
+Date: Fri, 20 Dec 2019 14:25:44 +0100
+Subject: Disable Navigate on Drag&Drop
+
+Web apps are not expected to allow navigation on drag and drop, so the
+implementation needs to be disabled accordigly. Use the new exposed API
+in webOS webview and neva app runtime.
+---
+ src/platform/webengine/WebPageBlink.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/platform/webengine/WebPageBlink.cpp b/src/platform/webengine/WebPageBlink.cpp
+index 225ef60..237d481 100644
+--- a/src/platform/webengine/WebPageBlink.cpp
++++ b/src/platform/webengine/WebPageBlink.cpp
+@@ -148,6 +148,7 @@ void WebPageBlink::init()
+     d->pageView->SetLocalStorageEnabled(true);
+     d->pageView->SetShouldSuppressDialogs(true);
+     d->pageView->SetNotifyFMPDirectly(m_appDesc->usePrerendering());
++    d->pageView->SetNavigateOnDragDrop(false);
+     setDisallowScrolling(m_appDesc->disallowScrollingInMainFrame());
+ 
+     if (!std::isnan(m_appDesc->networkStableTimeout()) && (m_appDesc->networkStableTimeout() >= 0.0))
+-- 
+2.20.1
+
