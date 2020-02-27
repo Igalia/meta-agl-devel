@@ -12,8 +12,8 @@ PV = "1.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
 #build-time dependencies
-DEPENDS += "af-binder af-main-native chromium68"
+DEPENDS += "af-binder af-main-native chromium72"
 
 inherit cmake aglwgt
 
-RDEPENDS_${PN} += "chromium68-browser runxdg"
+RDEPENDS_${PN} += "chromium72-browser runxdg"
