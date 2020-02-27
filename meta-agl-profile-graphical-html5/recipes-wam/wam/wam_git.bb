@@ -5,13 +5,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 inherit cmake
 
-DEPENDS = "glib-2.0 jsoncpp boost chromium68 wayland-ivi-extension libhomescreen libwindowmanager"
+DEPENDS = "glib-2.0 jsoncpp boost chromium72 wayland-ivi-extension libhomescreen libwindowmanager"
 
 EXTRA_OECMAKE = "\
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${prefix} \
     -DPLATFORM_NAME=${@'${DISTRO}'.upper().replace('-', '_')} \
-    -DCHROMIUM_SRC_DIR=${STAGING_INCDIR}/chromium68"
+    -DCHROMIUM_SRC_DIR=${STAGING_INCDIR}/chromium72"
 
 PR="r0"
 
