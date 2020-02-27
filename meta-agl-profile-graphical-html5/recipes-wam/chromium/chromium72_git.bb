@@ -83,7 +83,6 @@ PACKAGECONFIG[use-upstream-wayland] = " \
 "
 
 GN_ARGS = "\
-    is_webos=true\
     enable_memorymanager_webapi=false\
     ffmpeg_branding=\"Chrome\"\
     host_os=\"linux\"\
