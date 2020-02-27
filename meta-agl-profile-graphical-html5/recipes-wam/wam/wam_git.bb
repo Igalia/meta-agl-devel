@@ -5,27 +5,34 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 inherit cmake
 
-DEPENDS = "glib-2.0 jsoncpp boost chromium68 wayland-ivi-extension libhomescreen libwindowmanager"
+DEPENDS = "glib-2.0 jsoncpp boost chromium72 wayland-ivi-extension libhomescreen libwindowmanager"
 
 EXTRA_OECMAKE = "\
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=${prefix} \
     -DPLATFORM_NAME=${@'${DISTRO}'.upper().replace('-', '_')} \
-    -DCHROMIUM_SRC_DIR=${STAGING_INCDIR}/chromium68"
+    -DCHROMIUM_SRC_DIR=${STAGING_INCDIR}/chromium72"
 
 PR="r0"
 
 PROVIDES += "virtual/webruntime"
 RPROVIDES_${PN} += "virtual/webruntime"
 
+#SRC_URI = "\
+#    git://github.com/webosose/${PN}.git;branch=@6.agl.icefish;protocol=https \
+#    file://WebAppMgr@.service \
+#    file://WebAppMgr.env \
+#    file://trunc-webapp-roles.patch \
+#"
 SRC_URI = "\
-    git://github.com/igalia/${PN}.git;branch=@6.agl.jellyfish;protocol=https \
+    git://github.com/igalia/webosose-wam.git;branch=adunaev@chromium72;protocol=https \
     file://WebAppMgr@.service \
     file://WebAppMgr.env \
     file://trunc-webapp-roles.patch \
 "
 S = "${WORKDIR}/git"
-SRCREV = "d012dbe03f23dd87a4e77bd3eec1fe9d227a5085"
+
+SRCREV = "2fbf59ca45b05912b90e6ce1f8ce1d6686a8ae9b"
 
 do_install_append() {
     install -d ${D}${sysconfdir}/wam
