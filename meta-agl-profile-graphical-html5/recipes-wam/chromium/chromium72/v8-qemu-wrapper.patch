@@ -1,0 +1,36 @@
+Upstream-Status: Inappropriate [embedder specific]
+
+The patch below makes the V8 binaries run during the build be invoked through
+QEMU, as they are built for the target.
+
+Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
+Signed-off-by: Maksim Sisov <msisov@igalia.com>
+
+Index: git/src/v8/BUILD.gn
+===================================================================
+--- git.orig/src/v8/BUILD.gn
++++ git/src/v8/BUILD.gn
+@@ -1009,6 +1009,7 @@ action("run_torque") {
+   }
+ 
+   args = [
++    "./v8-qemu-wrapper.sh",
+     "./" + rebase_path(get_label_info(":torque($v8_generator_toolchain)",
+                                       "root_out_dir") + "/torque",
+                        root_build_dir),
+@@ -1055,6 +1056,7 @@ action("generate_bytecode_builtins_list") {
+     ":bytecode_builtins_list_generator($v8_generator_toolchain)",
+   ]
+   args = [
++    "./v8-qemu-wrapper.sh",
+     "./" + rebase_path(
+             get_label_info(
+                     ":bytecode_builtins_list_generator($v8_generator_toolchain)",
+@@ -1097,6 +1099,7 @@ template("run_mksnapshot") {
+     data = []
+ 
+     args = [
++      "./v8-qemu-wrapper.sh",
+       "./" + rebase_path(get_label_info(":mksnapshot($v8_snapshot_toolchain)",
+                                         "root_out_dir") + "/mksnapshot",
+                          root_build_dir),
