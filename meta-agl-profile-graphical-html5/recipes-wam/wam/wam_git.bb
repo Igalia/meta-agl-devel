@@ -19,13 +19,13 @@ PROVIDES += "virtual/webruntime"
 RPROVIDES_${PN} += "virtual/webruntime"
 
 SRC_URI = "\
-    git://github.com/webosose/${PN}.git;branch=@6.agl.icefish;protocol=https \
+    git://github.com/igalia/${PN}.git;branch=adunaev@chromium72;protocol=https \
     file://WebAppMgr@.service \
     file://WebAppMgr.env \
     file://trunc-webapp-roles.patch \
 "
 S = "${WORKDIR}/git"
-SRCREV = "a9e009347be183b1b880243151a2242f2f6c59b9"
+SRCREV = "ae8d7334da7779a4de671e83f0dabe322dd48c5f"
 
 do_install_append() {
     install -d ${D}${sysconfdir}/wam
