@@ -30,11 +30,11 @@ SRC_URI[chromium.sha256sum] = "2c0012059046a5a7e2bf6e9502f1898f1953226d63b724b82
 BRANCH_cef = "adunaev@3987"
 SRCREV_cef = "14acbb12936432bc3ee74c8c19b77f3edc7ab301"
 
-SRCTAG_chromium = "80.0.3987.132"
+# SRCTAG_chromium = "80.0.3987.132"
 # The git fetcher doesn't want to fetch by tag :-(
-SRCREV_chromium = "78e2bc9c2def358a0745878ffc66ce85ee5221d8"
+# SRCREV_chromium = "78e2bc9c2def358a0745878ffc66ce85ee5221d8"
 
-SRCREV_v8 = "2ad0a63d4a25377f3dc5eae52ef87505518867e8"
+# SRCREV_v8 = "2ad0a63d4a25377f3dc5eae52ef87505518867e8"
 
 CHROMIUM_NAME = "chromium-${PV}"
 SOURCE_DIR = "${CHROMIUM_NAME}"
