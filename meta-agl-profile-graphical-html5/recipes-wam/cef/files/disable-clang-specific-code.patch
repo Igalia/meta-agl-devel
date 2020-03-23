@@ -1,0 +1,68 @@
+Disable code that requires clang.
+
+Chromium assumes clang and doesn't support GCC officially, so the code may be
+incompatible.
+
+Upstream-Status: ???
+Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
+
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -1408,6 +1408,10 @@ config("default_warnings") {
+       cflags_cc += [
+         # See comment for -Wno-c++11-narrowing.
+         "-Wno-narrowing",
++        # Suppress GCC's mumbling about clang's spells.
++        "-Wno-attributes",
++        "-Wno-unknown-pragmas",
++        "-Wno-unused-variable",
+       ]
+
+       # -Wno-class-memaccess warns about hash table and vector in blink.
+--- a/base/bind_internal.h
++++ b/base/bind_internal.h
+@@ -731,6 +731,7 @@ bool QueryCancellationTraitsImpl(BindStateBase::CancellationQueryMode mode,
+           functor, std::get<indices>(bound_args)...);
+   }
+   NOTREACHED();
++  return false;
+ }
+
+ // Relays |base| to corresponding CallbackCancellationTraits<>::Run(). Returns
+--- a/net/third_party/quiche/src/quic/core/frames/quic_frame.h
++++ b/net/third_party/quiche/src/quic/core/frames/quic_frame.h
+@@ -113,8 +113,8 @@ struct QUIC_EXPORT_PRIVATE QuicFrame {
+
+ static_assert(sizeof(QuicFrame) <= 24,
+               "Frames larger than 24 bytes should be referenced by pointer.");
+-static_assert(offsetof(QuicStreamFrame, type) == offsetof(QuicFrame, type),
+-              "Offset of |type| must match in QuicFrame and QuicStreamFrame");
++// static_assert(offsetof(QuicStreamFrame, type) == offsetof(QuicFrame, type),
++//            "Offset of |type| must match in QuicFrame and QuicStreamFrame");
+
+ // A inline size of 1 is chosen to optimize the typical use case of
+ // 1-stream-frame in QuicTransmissionInfo.retransmittable_frames.
+
+--- a/net/third_party/quiche/src/quic/core/frames/quic_inlined_frame.h
++++ b/net/third_party/quiche/src/quic/core/frames/quic_inlined_frame.h
+@@ -17,8 +17,8 @@ namespace quic {
+ template <typename DerivedT>
+ struct QUIC_EXPORT_PRIVATE QuicInlinedFrame {
+   QuicInlinedFrame(QuicFrameType type) : type(type) {
+-    static_assert(offsetof(DerivedT, type) == 0,
+-                  "type must be the first field.");
++//    static_assert(offsetof(DerivedT, type) == 0,
++//                  "type must be the first field.");
+     static_assert(sizeof(DerivedT) <= 24,
+                   "Frames larger than 24 bytes should not be inlined.");
+   }
+--- a/ui/base/clipboard/clipboard_format_type.h
++++ b/ui/base/clipboard/clipboard_format_type.h
+@@ -96,7 +96,6 @@ struct COMPONENT_EXPORT(BASE_CLIPBOARD_TYPES) ClipboardFormatType {
+
+  private:
+   friend class base::NoDestructor<ClipboardFormatType>;
+-  friend struct ClipboardFormatType;
+
+   // Platform-specific glue used internally by the ClipboardFormatType struct.
+   // Each platform should define at least one of each of the following:

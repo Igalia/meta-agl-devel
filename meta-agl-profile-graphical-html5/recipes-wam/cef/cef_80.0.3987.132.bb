@@ -30,6 +30,8 @@ SRC_URI[chromium.sha256sum] = "2c0012059046a5a7e2bf6e9502f1898f1953226d63b724b82
 BRANCH_cef = "adunaev@3987"
 SRCREV_cef = "14acbb12936432bc3ee74c8c19b77f3edc7ab301"
 
+FILESEXTRAPATHS_prepend = "${S}/cef/patch/patches:"
+
 # SRCTAG_chromium = "80.0.3987.132"
 # The git fetcher doesn't want to fetch by tag :-(
 # SRCREV_chromium = "78e2bc9c2def358a0745878ffc66ce85ee5221d8"

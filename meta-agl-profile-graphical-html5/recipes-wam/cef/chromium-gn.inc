@@ -19,6 +19,8 @@ SRC_URI += " \
         file://do-not-specify-march-on-arm.patch \
         file://add_internal_define_armv7ve.patch \
         file://delete_not_yet_released_clang_warnings.patch \
+        file://disable-clang-specific-code.patch \
+        file://quic-backport.patch \
 "
 
 SRC_URI_append_libc-musl = "\
@@ -119,6 +121,8 @@ PACKAGECONFIG[proprietary-codecs] = ' \
 # Base GN arguments, mostly related to features we want to enable or disable.
 GN_ARGS = " \
         ${PACKAGECONFIG_CONFARGS} \
+        use_cups=false \
+        use_gconf=false \
         is_component_build=${@bb.utils.contains('PACKAGECONFIG', 'component-build', 'true', 'false', d)} \
         use_gnome_keyring=false \
         use_jumbo_build=${@bb.utils.contains('PACKAGECONFIG', 'jumbo-build', 'true', 'false', d)} \
