@@ -1,6 +1,6 @@
 Fix GCC compilation of QuicCryptoStream
 
-This is a backport of e251509 from quiche repo
+This is a backport of 5e469419dc4660e38ae81027decf65ab37b4ba9f from quiche repo
 
 Upstream-Status: ???
 Signed-off-by: Alexander Dunaev <agunaev@igalia.com>

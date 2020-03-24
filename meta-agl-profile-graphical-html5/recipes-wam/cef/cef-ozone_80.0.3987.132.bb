@@ -43,3 +43,9 @@ do_patch_append() {
     os.chdir(os.path.join(d.getVar('S'), 'cef'))
     subprocess.check_call([sys.executable, '{S}/cef/tools/apply_cef_patches.py'.format(S=d.getVar('S'))])
 }
+
+do_configure_append() {
+    echo "Generating CEF config header"
+    cd ${S}/cef
+    python ${S}/cef/tools/make_config_header.py --header include/cef_config.h --cef_gn_config ${B}/args.gn
+}

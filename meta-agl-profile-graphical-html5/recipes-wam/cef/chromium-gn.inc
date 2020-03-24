@@ -21,6 +21,7 @@ SRC_URI += " \
         file://delete_not_yet_released_clang_warnings.patch \
         file://disable-clang-specific-code.patch \
         file://quic-backport.patch \
+        file://dape-fixes-backports.patch \
 "
 
 SRC_URI_append_libc-musl = "\

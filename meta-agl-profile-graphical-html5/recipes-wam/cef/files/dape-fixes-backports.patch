@@ -1,0 +1,42 @@
+These are backports of commits 5633ce55ffd8e3df4a2c8c29c597b48aa7676435 and
+25e1634f6b7b052733b17c40f4f83aa59a14ab0f to chromium, by José Dapena Paz.
+
+--- a/third_party/blink/renderer/core/editing/commands/delete_selection_command.cc
++++ b/third_party/blink/renderer/core/editing/commands/delete_selection_command.cc
+@@ -224,6 +224,10 @@ static Position TrailingWhitespacePosition(const Position& position,
+   return Position();
+ }
+
++static bool IsHTMLTableRowElement(const blink::Node* node) {
++  return IsA<HTMLTableRowElement>(node);
++}
++
+ void DeleteSelectionCommand::InitializePositionData(
+     EditingState* editing_state) {
+   DCHECK(!GetDocument().NeedsLayoutTreeUpdate());
+@@ -253,9 +257,9 @@ void DeleteSelectionCommand::InitializePositionData(
+   end_root_ = RootEditableElementOf(end);
+
+   start_table_row_ = To<HTMLTableRowElement>(
+-      EnclosingNodeOfType(start, &IsA<HTMLTableRowElement>));
++      EnclosingNodeOfType(start, &IsHTMLTableRowElement));
+   end_table_row_ = To<HTMLTableRowElement>(
+-      EnclosingNodeOfType(end, &IsA<HTMLTableRowElement>));
++      EnclosingNodeOfType(end, &IsHTMLTableRowElement));
+
+   // Don't move content out of a table cell.
+   // If the cell is non-editable, enclosingNodeOfType won't return it by
+--- a/third_party/blink/renderer/modules/peerconnection/adapters/web_rtc_cross_thread_copier.h
++++ b/third_party/blink/renderer/modules/peerconnection/adapters/web_rtc_cross_thread_copier.h
+@@ -165,8 +165,9 @@ struct CrossThreadCopier<blink::MediaStreamVideoTrack>
+ };
+
+ template <>
+-struct CrossThreadCopier<webrtc::VideoTrackInterface>
+-    : public CrossThreadCopierPassThrough<webrtc::VideoTrackInterface> {
++  struct CrossThreadCopier<rtc::scoped_refptr<webrtc::VideoTrackInterface>>
++      : public CrossThreadCopierPassThrough<
++            rtc::scoped_refptr<webrtc::VideoTrackInterface>> {
+   STATIC_ONLY(CrossThreadCopier);
+ };
+
