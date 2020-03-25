@@ -5,8 +5,8 @@ CVE_PRODUCT = "chromium:chromium google:chrome"
 
 SRC_URI = "https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz;name=chromium"
 
-SRC_URI[chromium.md5sum] = "207403b796cd38eeec38af03a22b10c8"
-SRC_URI[chromium.sha256sum] = "2c0012059046a5a7e2bf6e9502f1898f1953226d63b724b82fc18226e285c201"
+SRC_URI[chromium.md5sum] = "6543861e312fde15bdf5925e55adc34a"
+SRC_URI[chromium.sha256sum] = "024acda37df289f449a3a846b3431bf1ed6b075f83dda376dd7735341e3d55f9"
 
 S = "${WORKDIR}/chromium-${PV}"
 
@@ -47,7 +47,6 @@ LIC_FILES_CHKSUM = "\
     file://${S}/base/third_party/valgrind/LICENSE;md5=b95c9cb2560f157c60ea60ac1aa69469 \
     file://${S}/base/third_party/xdg_mime/LICENSE;md5=8e8261c342b33e06648483ac7f4862c9 \
     file://${S}/base/third_party/xdg_user_dirs/LICENSE;md5=d998f250c491c329a8254dd1ca62c647 \
-    file://${S}/build/fuchsia/fidlgen_js/third_party/enum34/LICENSE;md5=0a97a53a514564c20efd7b2e8976c87e \
     file://${S}/buildtools/third_party/libc++/trunk/LICENSE.TXT;md5=55d89dd7eec8d3b4204b680e27da3953 \
     file://${S}/buildtools/third_party/libc++abi/trunk/LICENSE.TXT;md5=7b9334635b542c56868400a46b272b1e \
     file://${S}/buildtools/third_party/libunwind/trunk/LICENSE.TXT;md5=7ea986af7f70eaea5a297dd2744c79a5 \
@@ -242,7 +241,7 @@ LIC_FILES_CHKSUM = "\
     file://${S}/third_party/grpc/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
     file://${S}/third_party/gvr-android-keyboard/LICENSE;md5=67d07a07ec29a50a3ded12b2ba952257 \
     file://${S}/third_party/gvr-android-sdk/LICENSE;md5=50b9d1f02b2ee0d8a568ccf4d35216e2 \
-    file://${S}/third_party/harfbuzz-ng/src/COPYING;md5=e11f5c3149cdec4bb309babb020b32b9 \
+    file://${S}/third_party/harfbuzz-ng/src/COPYING;md5=8f787620b7d3866d9552fd1924c07572 \
     file://${S}/third_party/hunspell/COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
     file://${S}/third_party/iaccessible2/LICENSE;md5=43bbd0bfb581347ec10def720000a645 \
     file://${S}/third_party/iccjpeg/LICENSE;md5=26834d132689a03abf860f4572705494 \
@@ -310,7 +309,6 @@ LIC_FILES_CHKSUM = "\
     file://${S}/third_party/qcms/src/COPYING;md5=65636fa951328d3be95f6047ec3936ce \
     file://${S}/third_party/re2/LICENSE;md5=3b5c31eb512bdf3cb11ffd5713963760 \
     file://${S}/third_party/rnnoise/COPYING;md5=1890bf89a18f8339491894a0b45428bf \
-    file://${S}/third_party/sfntly/COPYING.txt;md5=2326ae5ca22e299a528433bebb02131f \
     file://${S}/third_party/simplejson/LICENSE.txt;md5=8a9f8dcfcd28c34daa443e5b1d29813b \
     file://${S}/third_party/skia/LICENSE;md5=822f02cc7736281816581cd064afbb1c \
     file://${S}/third_party/smhasher/LICENSE;md5=0d948322ab524e2b74f55eb8ef57c74a \

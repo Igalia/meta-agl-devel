@@ -11,8 +11,6 @@ B = "${S}/${OUTPUT_DIR}"
 SRC_URI += " \
         file://0001-Do-not-use-nullptr-initalization-of-fwd-declared-typ.patch \
         file://0002-media-do-not-use-fwd-decl-with-nullptr-instantiation.patch \
-        file://0001-BookmarkModelMerger-Move-RemoteTreeNode-declaration-.patch \
-        file://0001-cros-search-service-Include-cmath-for-std-pow.patch \
         file://oe-clang-fixes.patch \
         file://v8-qemu-wrapper.patch \
         file://wrapper-extra-flags.patch \
@@ -20,8 +18,10 @@ SRC_URI += " \
         file://add_internal_define_armv7ve.patch \
         file://delete_not_yet_released_clang_warnings.patch \
         file://disable-clang-specific-code.patch \
-        file://quic-backport.patch \
         file://dape-fixes-backports.patch \
+        file://msisov-001.patch \
+        file://msisov-002.patch \
+        file://msisov-003.patch \
 "
 
 SRC_URI_append_libc-musl = "\
@@ -365,7 +365,7 @@ do_configure() {
 }
 
 do_compile() {
-	ninja -v ${PARALLEL_MAKE} chrome chrome_sandbox chromedriver
+	ninja -v ${PARALLEL_MAKE} ${CHROME_TARGETS}
 }
 do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
 

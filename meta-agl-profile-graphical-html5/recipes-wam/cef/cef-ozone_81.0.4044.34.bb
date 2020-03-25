@@ -2,12 +2,11 @@ require chromium-gn.inc
 
 SRC_URI += " \
     git://github.com/Igalia/cef.git;protocol=https;destsuffix=${S}/cef;branch=${BRANCH_cef};rev=${SRCREV_cef};name=cef \
-    file://0001-Add-missing-algorithm-header-in-bitmap_cursor_factor.patch \
     file://0001-ozone-wayland-do-not-use-modifiers-for-linear-buffer.patch \
 "
 
-BRANCH_cef = "adunaev@3987"
-SRCREV_cef = "5a3c9ae9fe224369f3dee91278edaa4e5f26ecc1"
+BRANCH_cef = "adunaev@4044"
+SRCREV_cef = "36e47ffd89cf3de2f542eef3f823ec85ea4060b0"
 
 REQUIRED_DISTRO_FEATURES = "wayland"
 
@@ -36,6 +35,8 @@ GN_ARGS += "\
 
 # The chromium binary must always be started with those arguments.
 CHROMIUM_EXTRA_ARGS_append = " --ozone-platform=wayland"
+
+CHROME_TARGETS = "libcef"
 
 do_patch_append() {
     import subprocess

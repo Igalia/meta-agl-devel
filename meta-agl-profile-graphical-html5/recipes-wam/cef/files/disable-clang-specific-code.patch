@@ -8,7 +8,7 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1408,6 +1408,14 @@ config("default_warnings") {
+@@ -1402,6 +1402,14 @@ config("default_warnings") {
        cflags_cc += [
          # See comment for -Wno-c++11-narrowing.
          "-Wno-narrowing",
@@ -33,26 +33,6 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
    friend class AudioFocusWebContentsObserverBrowserTest;
 
    explicit AudioFocusWebContentsObserver(content::WebContents*);
---- a/media/base/media_log_properties_helper.h
-+++ b/media/base/media_log_properties_helper.h
-@@ -83,7 +83,7 @@ struct MediaLogPropertyTypeConverter<std::vector<T>> {
-
- // Specializer for sending AudioDecoderConfigs to the media tab in devtools.
- template <>
--struct internal::MediaLogPropertyTypeConverter<media::AudioDecoderConfig> {
-+struct MediaLogPropertyTypeConverter<media::AudioDecoderConfig> {
-   static base::Value Convert(const AudioDecoderConfig& value) {
-     base::Value result(base::Value::Type::DICTIONARY);
-     result.SetStringKey("codec", GetCodecName(value.codec()));
-@@ -114,7 +114,7 @@ struct internal::MediaLogPropertyTypeConverter<media::AudioDecoderConfig> {
-
- // Specializer for sending VideoDecoderConfigs to the media tab in devtools.
- template <>
--struct internal::MediaLogPropertyTypeConverter<VideoDecoderConfig> {
-+struct MediaLogPropertyTypeConverter<VideoDecoderConfig> {
-   static base::Value Convert(const VideoDecoderConfig& value) {
-     base::Value result(base::Value::Type::DICTIONARY);
-     result.SetStringKey("codec", GetCodecName(value.codec()));
 --- a/net/third_party/quiche/src/quic/core/frames/quic_frame.h
 +++ b/net/third_party/quiche/src/quic/core/frames/quic_frame.h
 @@ -113,8 +113,8 @@ struct QUIC_EXPORT_PRIVATE QuicFrame {
@@ -91,49 +71,6 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
  #endif
 
  namespace cc {
---- a/ui/base/clipboard/clipboard_format_type.h
-+++ b/ui/base/clipboard/clipboard_format_type.h
-@@ -96,7 +96,6 @@ struct COMPONENT_EXPORT(BASE_CLIPBOARD_TYPES) ClipboardFormatType {
-
-  private:
-   friend class base::NoDestructor<ClipboardFormatType>;
--  friend struct ClipboardFormatType;
-
-   // Platform-specific glue used internally by the ClipboardFormatType struct.
-   // Each platform should define at least one of each of the following:
---- a/ui/ozone/platform/wayland/host/wayland_window.cc
-+++ b/ui/ozone/platform/wayland/host/wayland_window.cc
-@@ -29,8 +29,6 @@
-
- namespace ui {
-
--namespace {
--
- // Factory, which decides which version type of xdg object to build.
- class XDGShellObjectFactory {
-  public:
-@@ -83,8 +81,6 @@ gfx::Rect TranslateBoundsToTopLevelCoordinates(const gfx::Rect& child_bounds,
-                    child_bounds.size());
- }
-
--}  // namespace
--
- WaylandWindow::WaylandWindow(PlatformWindowDelegate* delegate,
-                              WaylandConnection* connection)
-     : delegate_(delegate),
---- a/ui/ozone/platform/wayland/host/wayland_window.h
-+++ b/ui/ozone/platform/wayland/host/wayland_window.h
-@@ -34,10 +34,7 @@ class OSExchangeData;
- class WaylandConnection;
- class ShellPopupWrapper;
- class ShellSurfaceWrapper;
--
--namespace {
- class XDGShellObjectFactory;
--}  // namespace
-
- class WaylandWindow : public PlatformWindow,
-                       public PlatformEventDispatcher,
 --- a/ui/ozone/platform/wayland/host/xdg_surface_wrapper_impl.h
 +++ b/ui/ozone/platform/wayland/host/xdg_surface_wrapper_impl.h
 @@ -72,7 +72,7 @@ class XDGSurfaceWrapperImpl : public ShellSurfaceWrapper {
