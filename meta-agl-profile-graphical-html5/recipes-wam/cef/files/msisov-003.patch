@@ -505,6 +505,34 @@ index c842c50..b570895 100644
  ui::KeyEvent CefBrowserPlatformDelegateNativeLinux::TranslateUiKeyEvent(
      const CefKeyEvent& key_event) const {
    int flags = TranslateUiEventModifiers(key_event.modifiers);
+@@ -297,9 +313,15 @@ ui::KeyEvent CefBrowserPlatformDelegateNativeLinux::TranslateUiKeyEvent(
+       static_cast<ui::KeyboardCode>(key_event.windows_key_code);
+   ui::DomCode dom_code =
+       ui::KeycodeConverter::NativeKeycodeToDomCode(key_event.native_key_code);
++#if defined(CEF_X11)
+   int keysym = ui::XKeysymForWindowsKeyCode(
+       key_code, !!(key_event.modifiers & EVENTFLAG_SHIFT_DOWN));
+   base::char16 character = ui::GetUnicodeCharacterFromXKeySym(keysym);
++#else
++  NOTIMPLEMENTED();
++  int keysum = 0;
++  base::char16 character = 0;
++#endif
+   base::TimeTicks time_stamp = GetEventTimeStamp();
+
+   if (key_event.type == KEYEVENT_CHAR) {
+@@ -319,7 +341,11 @@ ui::KeyEvent CefBrowserPlatformDelegateNativeLinux::TranslateUiKeyEvent(
+       NOTREACHED();
+   }
+
++#if defined(CEF_X11)
+   ui::DomKey dom_key = ui::XKeySymToDomKey(keysym, character);
++#else
++  ui::DomKey dom_key;
++#endif
+   return ui::KeyEvent(type, key_code, dom_code, flags, dom_key, time_stamp);
+ }
+
 diff --git a/libcef/browser/native/browser_platform_delegate_native_linux.h b/libcef/browser/native/browser_platform_delegate_native_linux.h
 index 1fe8de3..03ffd71 100644
 --- a/cef/libcef/browser/native/browser_platform_delegate_native_linux.h

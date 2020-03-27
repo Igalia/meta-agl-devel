@@ -31,6 +31,7 @@ GN_ARGS += "\
         use_system_libdrm=true \
         use_gtk=false \
         cef_use_gtk=false \
+        enable_service_discovery=false \
 "
 
 # The chromium binary must always be started with those arguments.
@@ -50,3 +51,22 @@ do_configure_append() {
     cd ${S}/cef
     python ${S}/cef/tools/make_config_header.py --header include/cef_config.h --cef_gn_config ${B}/args.gn
 }
+
+do_install() {
+    install -m 0755 -d ${D}${libdir}
+    install libcef.so ${D}${libdir}
+
+    install -d ${D}${includedir}
+    install -m 0755 includes/include/*.h ${D}${includedir}
+
+    install -d ${D}${libdir}/libcef
+    install -m 0644 *.pak ${D}${libdir}/libcef/
+
+    install -d ${D}${libdir}/libcef/locales
+    install -m 0644 locales/*.pak ${D}${libdir}/libcef/locales/
+}
+
+FILES_${PN} = " \
+    ${libdir}/libcef.so \
+    ${libdir}/libcef/* \
+"
