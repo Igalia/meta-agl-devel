@@ -4290,8 +4290,8 @@ index dbccff6..64f62c1 100644
 -      return False
 -
 -  return True
-+    if parts[0] == gn_arg:
-+      if parts[1] == "true":
++    if str(parts[0]).strip() == gn_arg:
++      if str(parts[1]).strip() == "true":
 +        return True, True  # found, value
 +      else:
 +        return True, False # found, value

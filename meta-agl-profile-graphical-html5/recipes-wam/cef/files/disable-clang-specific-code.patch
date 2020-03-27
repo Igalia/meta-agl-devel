@@ -8,11 +8,12 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1402,6 +1402,14 @@ config("default_warnings") {
+@@ -1402,6 +1402,15 @@ config("default_warnings") {
        cflags_cc += [
          # See comment for -Wno-c++11-narrowing.
          "-Wno-narrowing",
 +        # Suppress GCC's mumbling about clang's spells.
++        # We also can ignore unused things because we build stable code.
 +        "-Wno-attributes",
 +        "-Wno-pragmas",
 +        "-Wno-return-type",
@@ -35,31 +36,38 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
    explicit AudioFocusWebContentsObserver(content::WebContents*);
 --- a/net/third_party/quiche/src/quic/core/frames/quic_frame.h
 +++ b/net/third_party/quiche/src/quic/core/frames/quic_frame.h
-@@ -113,8 +113,8 @@ struct QUIC_EXPORT_PRIVATE QuicFrame {
+@@ -110,8 +110,6 @@ struct QUIC_EXPORT_PRIVATE QuicFrame {
 
  static_assert(sizeof(QuicFrame) <= 24,
                "Frames larger than 24 bytes should be referenced by pointer.");
 -static_assert(offsetof(QuicStreamFrame, type) == offsetof(QuicFrame, type),
 -              "Offset of |type| must match in QuicFrame and QuicStreamFrame");
-+// static_assert(offsetof(QuicStreamFrame, type) == offsetof(QuicFrame, type),
-+//            "Offset of |type| must match in QuicFrame and QuicStreamFrame");
 
  // A inline size of 1 is chosen to optimize the typical use case of
  // 1-stream-frame in QuicTransmissionInfo.retransmittable_frames.
 
 --- a/net/third_party/quiche/src/quic/core/frames/quic_inlined_frame.h
 +++ b/net/third_party/quiche/src/quic/core/frames/quic_inlined_frame.h
-@@ -17,8 +17,8 @@ namespace quic {
+@@ -17,8 +17,6 @@ namespace quic {
  template <typename DerivedT>
  struct QUIC_EXPORT_PRIVATE QuicInlinedFrame {
    QuicInlinedFrame(QuicFrameType type) : type(type) {
 -    static_assert(offsetof(DerivedT, type) == 0,
 -                  "type must be the first field.");
-+//    static_assert(offsetof(DerivedT, type) == 0,
-+//                  "type must be the first field.");
      static_assert(sizeof(DerivedT) <= 24,
                    "Frames larger than 24 bytes should not be inlined.");
    }
+--- a/third_party/zlib/BUILD.gn.2
++++ b/third_party/zlib/BUILD.gn
+@@ -76,7 +76,7 @@ if (use_arm_neon_optimizations) {
+     #  "All implementations of the ARMv8.1 architecture are required to
+     #   implement the CRC32* instructions. These are optional in ARMv8.0."
+     if (!is_ios) {
+-      defines = [ "CRC32_ARMV8_CRC32" ]
++      defines = []
+       if (is_android) {
+         defines += [ "ARMV8_OS_ANDROID" ]
+       } else if (is_linux || is_chromeos) {
 --- a/ui/aura/window.h
 +++ b/ui/aura/window.h
 @@ -41,7 +41,7 @@
@@ -71,9 +79,43 @@ Signed-off-by: Alexander Dunaev <agunaev@igalia.com>
  #endif
 
  namespace cc {
+--- a/ui/ozone/platform/wayland/gpu/gbm_pixmap_wayland.cc
++++ b/ui/ozone/platform/wayland/gpu/gbm_pixmap_wayland.cc
+@@ -46,6 +46,31 @@ bool GbmPixmapWayland::InitializeBuffer(gfx::Size size,
+   if (!buffer_manager_->gbm_device())
+     return false;
+
++  uint32_t flags = 0;
++  switch (usage) {
++    case gfx::BufferUsage::GPU_READ:
++      flags = GBM_BO_USE_LINEAR;
++      break;
++    case gfx::BufferUsage::SCANOUT:
++      flags = GBM_BO_USE_RENDERING | GBM_BO_USE_SCANOUT;
++      break;
++    case gfx::BufferUsage::SCANOUT_CAMERA_READ_WRITE:
++      flags = GBM_BO_USE_LINEAR | GBM_BO_USE_WRITE | GBM_BO_USE_SCANOUT;
++      break;
++    case gfx::BufferUsage::SCANOUT_CPU_READ_WRITE:
++      flags = GBM_BO_USE_LINEAR | GBM_BO_USE_SCANOUT;
++      break;
++    case gfx::BufferUsage::SCANOUT_VDA_WRITE:
++      flags = GBM_BO_USE_SCANOUT;
++      break;
++    case gfx::BufferUsage::GPU_READ_CPU_READ_WRITE:
++      flags = GBM_BO_USE_LINEAR;
++      break;
++    default:
++      NOTREACHED() << "Not supported buffer format";
++      break;
++  }
++
+   const uint32_t fourcc_format = GetFourCCFormatFromBufferFormat(format);
+   auto modifiers = buffer_manager_->GetModifiersForBufferFormat(format);
+   gbm_bo_ = buffer_manager_->gbm_device()->CreateBufferWithModifiers(
 --- a/ui/ozone/platform/wayland/host/xdg_surface_wrapper_impl.h
 +++ b/ui/ozone/platform/wayland/host/xdg_surface_wrapper_impl.h
-@@ -72,7 +72,7 @@ class XDGSurfaceWrapperImpl : public ShellSurfaceWrapper {
+@@ -68,7 +68,7 @@ class XDGSurfaceWrapperImpl : public ShellSurfaceWrapper {
    static void CloseTopLevelV6(void* data,
                                struct zxdg_toplevel_v6* zxdg_toplevel_v6);
 

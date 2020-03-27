@@ -1,5 +1,7 @@
 These are backports of commits 5633ce55ffd8e3df4a2c8c29c597b48aa7676435 and
-25e1634f6b7b052733b17c40f4f83aa59a14ab0f to chromium, by José Dapena Paz.
+25e1634f6b7b052733b17c40f4f83aa59a14ab0f
+e2c7f4b29abf55db20d957616e3691ae69c279d0
+to chromium, by José Dapena Paz.
 
 --- a/third_party/blink/renderer/core/editing/commands/delete_selection_command.cc
 +++ b/third_party/blink/renderer/core/editing/commands/delete_selection_command.cc
@@ -26,3 +28,22 @@ These are backports of commits 5633ce55ffd8e3df4a2c8c29c597b48aa7676435 and
 
    // Don't move content out of a table cell.
    // If the cell is non-editable, enclosingNodeOfType won't return it by
+--- a/ui/views/layout/layout_types.h
++++ b/ui/views/layout/layout_types.h
+@@ -45,14 +45,10 @@
+   ~SizeBounds() = default;
+
+   constexpr const base::Optional<int>& width() const { return width_; }
+-  constexpr void set_width(base::Optional<int> width) {
+-    width_ = std::move(width);
+-  }
++  void set_width(base::Optional<int> width) { width_ = std::move(width); }
+
+   constexpr const base::Optional<int>& height() const { return height_; }
+-  constexpr void set_height(base::Optional<int> height) {
+-    height_ = std::move(height);
+-  }
++  void set_height(base::Optional<int> height) { height_ = std::move(height); }
+
+   // Enlarges (or shrinks, if negative) each upper bound that is present by the
+   // specified amounts.

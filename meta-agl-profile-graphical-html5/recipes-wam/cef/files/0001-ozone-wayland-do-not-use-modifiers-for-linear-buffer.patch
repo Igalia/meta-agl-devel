@@ -33,7 +33,7 @@ diff --git a/ui/ozone/platform/wayland/gpu/gbm_pixmap_wayland.cc b/ui/ozone/plat
 index f36ec10cac1c..e38216870598 100644
 --- a/ui/ozone/platform/wayland/gpu/gbm_pixmap_wayland.cc
 +++ b/ui/ozone/platform/wayland/gpu/gbm_pixmap_wayland.cc
-@@ -70,7 +70,10 @@ bool GbmPixmapWayland::InitializeBuffer(gfx::Size size,
+@@ -72,7 +72,10 @@ bool GbmPixmapWayland::InitializeBuffer(gfx::Size size,
    }
  
    const uint32_t fourcc_format = GetFourCCFormatFromBufferFormat(format);
@@ -43,7 +43,7 @@ index f36ec10cac1c..e38216870598 100644
 +    modifiers = buffer_manager_->GetModifiersForBufferFormat(format);
 +
    gbm_bo_ = buffer_manager_->gbm_device()->CreateBufferWithModifiers(
-       fourcc_format, size, flags, modifiers);
+       fourcc_format, size, ui::BufferUsageToGbmFlags(usage), modifiers);
    if (!gbm_bo_) {
 -- 
 2.20.1
