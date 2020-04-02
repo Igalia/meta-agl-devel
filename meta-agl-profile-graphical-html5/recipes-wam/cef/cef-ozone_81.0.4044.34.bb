@@ -1,3 +1,6 @@
+SUMMARY = "CEF/Ozone"
+AUTHOR = "Alexander Dunaev <adunaev@igalia.com>"
+
 require chromium-gn.inc
 
 SRC_URI += " \
@@ -34,9 +37,6 @@ GN_ARGS += "\
         enable_service_discovery=false \
 "
 
-# The chromium binary must always be started with those arguments.
-CHROMIUM_EXTRA_ARGS_append = " --ozone-platform=wayland"
-
 CHROME_TARGETS = "libcef"
 
 do_patch_append() {
@@ -56,8 +56,13 @@ do_install() {
     install -m 0755 -d ${D}${libdir}
     install libcef.so ${D}${libdir}
 
-    install -d ${D}${includedir}
-    install -m 0755 includes/include/*.h ${D}${includedir}
+    # Prepare headers.
+    export INCLUDES_DIR="${D}${includedir}/libcef/include"
+    install -d ${INCLUDES_DIR}
+    cp -r ${S}/cef/include/* ${INCLUDES_DIR}
+    # The base/internal/cef_net_error_list.h has to be replaced with the chromium's net/base/net_error_list.h.
+    rm ${INCLUDES_DIR}/base/internal/cef_net_error_list.h
+    cp ${S}/net/base/net_error_list.h ${INCLUDES_DIR}/base/internal/cef_net_error_list.h
 
     install -d ${D}${libdir}/libcef
     install -m 0644 *.pak ${D}${libdir}/libcef/
@@ -66,6 +71,9 @@ do_install() {
     install -m 0644 locales/*.pak ${D}${libdir}/libcef/locales/
 }
 
+# Package unversioned library.
+SOLIBS = ".so"
+FILES_SOLIBSDEV = ""
 FILES_${PN} = " \
     ${libdir}/libcef.so \
     ${libdir}/libcef/* \
