@@ -8,8 +8,8 @@ SRC_URI += " \
     file://0001-ozone-wayland-do-not-use-modifiers-for-linear-buffer.patch \
 "
 
-BRANCH_cef = "adunaev@4044"
-SRCREV_cef = "36e47ffd89cf3de2f542eef3f823ec85ea4060b0"
+BRANCH_cef = "4044"
+SRCREV_cef = "ad3f350e8e2799d386b4cd9dd5fe8d53e75cbca2"
 
 REQUIRED_DISTRO_FEATURES = "wayland"
 
@@ -37,7 +37,7 @@ GN_ARGS += "\
         enable_service_discovery=false \
 "
 
-CHROME_TARGETS = "libcef"
+CHROME_TARGETS = "libcef libcef_dll_wrapper"
 
 do_patch_append() {
     import subprocess
@@ -52,9 +52,15 @@ do_configure_append() {
     python ${S}/cef/tools/make_config_header.py --header include/cef_config.h --cef_gn_config ${B}/args.gn
 }
 
+do_compile_append() {
+    # https://stackoverflow.com/questions/25554621/turn-thin-archive-into-normal-one
+    ar -t obj/cef/libcef_dll_wrapper.a | xargs ar rvs libcef_dll_wrapper.a
+}
+
 do_install() {
     install -m 0755 -d ${D}${libdir}
     install libcef.so ${D}${libdir}
+    install libcef_dll_wrapper.a ${D}${libdir}
 
     # Prepare headers.
     export INCLUDES_DIR="${D}${includedir}/libcef/include"
