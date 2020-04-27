@@ -82,7 +82,10 @@ PACKAGECONFIG[use-upstream-wayland] = " \
         ozone_platform_wayland_external=true ozone_platform_wayland=false \
 "
 
+#    use_webos_gpu_info_collector=false
 GN_ARGS = "\
+    dcheck_always_on=true\
+    dcheck_is_configurable=true\
     enable_memorymanager_webapi=false\
     ffmpeg_branding=\"Chrome\"\
     host_os=\"linux\"\
@@ -101,7 +104,6 @@ GN_ARGS = "\
     use_xkbcommon=true\
     use_pmlog=false\
     use_system_debugger_abort=true\
-    use_webos_gpu_info_collector=false\
     use_system_libdrm=true\
     ${PACKAGECONFIG_CONFARGS}\
 "
