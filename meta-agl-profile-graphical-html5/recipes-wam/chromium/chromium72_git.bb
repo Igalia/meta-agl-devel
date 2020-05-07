@@ -23,7 +23,7 @@ SRC_URI = "\
     git://github.com/webosose/chromium-v8;branch=@chromium72;destsuffix=git/src/v8;rev=${SRCREV_v8} \
     file://v8-qemu-wrapper.patch \
 "
-SRCREV_chromium72 = "3c440dbd4365b5d689ab59e26f588f55141a1173"
+SRCREV_chromium72 = "9cd8390a5cb56bb0b7412bbb663342b342eb3c44"
 SRCREV_v8 = "3c24ac757b6083171b208457e5ff7b2a15e5863e"
 
 # we don't include SRCPV in PV, so we have to manually include SRCREVs in do_fetch vardeps
@@ -76,7 +76,6 @@ PACKAGECONFIG[use-upstream-wayland] = " \
         ozone_platform_wayland_external=true ozone_platform_wayland=false \
 "
 
-#    use_webos_gpu_info_collector=false
 GN_ARGS = "\
     dcheck_always_on=true\
     dcheck_is_configurable=true\
