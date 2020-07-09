@@ -18,14 +18,8 @@ PR="r0"
 PROVIDES += "virtual/webruntime"
 RPROVIDES_${PN} += "virtual/webruntime"
 
-#SRC_URI = "\
-#    git://github.com/webosose/${PN}.git;branch=@6.agl.icefish;protocol=https \
-#    file://WebAppMgr@.service \
-#    file://WebAppMgr.env \
-#    file://trunc-webapp-roles.patch \
-#"
 SRC_URI = "\
-    git://github.com/igalia/webosose-wam.git;branch=adunaev@chromium72;protocol=https \
+    git://github.com/igalia/webosose-${PN}.git;branch=@6.agl.chromium72;protocol=https \
     file://WebAppMgr@.service \
     file://WebAppMgr.env \
     file://trunc-webapp-roles.patch \
